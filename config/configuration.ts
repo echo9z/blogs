@@ -14,7 +14,7 @@ export default () => ({
     database: process.env.DB_NAME || 'blogs',
     synchronize: process.env.DB_SYNCHRONIZE || true, // 自动载入模型
     autoLoadEntities: true, // 自动导入实体
-    maxQueryExecutionTime: 1000, // 记录超过1秒的查询
-    logging: false, // 是否打印日志,执行sql语句时候输出原生sql,
+    maxQueryExecutionTime: process.env.DB_MaxQueryExecutionTime || 1000, // 记录超过1秒的查询
+    logging: process.env.DB_Logging || true, // 是否打印日志,执行sql语句时候输出原生sql,
   },
 });
