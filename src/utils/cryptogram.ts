@@ -13,6 +13,7 @@ export function encryptPassword(password: string, salt: string): string {
   }
   // 创建用于包含 盐 的指定字符串，编码为base64
   const tempSalt = Buffer.from(salt, 'base64');
+  // 10000 代表迭代次数 16代表长度
   return crypto
     .pbkdf2Sync(password, tempSalt, 10000, 16, 'sha1')
     .toString('base64');

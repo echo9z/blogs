@@ -6,6 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { expressCspHeader, INLINE, NONE, SELF } from 'express-csp-header';
 import { RequestMiddleware } from './middleware/request.middleware';
 import { AnyExceptionFilter } from './filter/any-exception.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   // <NestExpressApplication>静态资源目录
@@ -14,7 +15,6 @@ async function bootstrap() {
   // 路径前缀：如：http://www.test.com/api/v1/user
   // app.setGlobalPrefix('api/v1');
 
-  app.useGlobalFilters(new AnyExceptionFilter)
   //cors：跨域资源共享，方式一：允许跨站访问
   app.enableCors();
   // 方式二：const app = await NestFactory.create(AppModule, { cors: true });
@@ -42,8 +42,20 @@ async function bootstrap() {
   //配置静态资源目录
   app.useStaticAssets('public');
 
+  // 配置swagger文档
+  const config = new DocumentBuilder()
+    .setTitle('Cats example')
+    .setDescription('The cats API description')
+    .setVersion('1.0')
+    .addTag('cats')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   // 监听所有的请求路由，并打印日志
   app.use(new RequestMiddleware().use);
+
+  app.useGlobalFilters(new AnyExceptionFilter());
 
   const PORT = process.env.PORT || 18080;
   await app.listen(
