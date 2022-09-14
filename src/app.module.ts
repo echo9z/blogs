@@ -11,6 +11,7 @@ import { DbLogger } from './utils/log4js';
 //引入
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { UserModule } from './module/user/user.module';
+import { MailModule } from './module/mail/mail.module';
 
 @Module({
   imports: [
@@ -41,12 +42,14 @@ import { UserModule } from './module/user/user.module';
         };
       },
     }),
+    // 设置对服务器请求次数
     ThrottlerModule.forRoot({
       ttl: 60, //1分钟
-      limit: 100, //请求10次
+      limit: 100, //请求100次
     }),
     AuthModule,
     UserModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [

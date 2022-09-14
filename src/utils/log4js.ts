@@ -133,6 +133,11 @@ export class Logger {
     logger.fatal(Logger.getStackTrace(), ...args);
   }
 
+  static mail(...args) {
+    const loggerCustom = Log4js.getLogger('mail');
+    loggerCustom.info(Logger.getStackTrace(), ...args);
+  }
+
   static access(...args) {
     const loggerCustom = Log4js.getLogger('http');
     loggerCustom.info(Logger.getStackTrace(), ...args);

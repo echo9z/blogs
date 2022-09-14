@@ -39,6 +39,38 @@ const log4jsConfig = {
       numBackups: 3,
       keepFileExt: true,
     },
+    mail: {
+      type: 'dateFile',
+      filename: `${baseLogPath}/mail/mail.log`,
+      alwaysIncludePattern: true,
+      layout: {
+        type: 'pattern',
+        pattern:
+          "[%d{yyyy-MM-dd hh:mm:ss SSS}] [%p] -h: %h -pid: %z  msg: '%m' ",
+      }, // 自定义的输出格式, 可参考 https://blog.csdn.net/hello_word2/article/details/79295344
+      pattern: 'yyyy-MM-dd',
+      daysToKeep: 30,
+      numBackups: 3,
+      compress: true, // 配置日志文件是否压缩
+      category: 'mail', // category 类型
+      keepFileExt: true,
+    },
+    mysql: {
+      type: 'dateFile',
+      filename: `${baseLogPath}/datasql/sql.log`,
+      alwaysIncludePattern: true,
+      layout: {
+        type: 'pattern',
+        pattern:
+          "[%d{yyyy-MM-dd hh:mm:ss SSS}] [%p] -h: %h -pid: %z  msg: '%m' ",
+      }, // 自定义的输出格式, 可参考 https://blog.csdn.net/hello_word2/article/details/79295344
+      pattern: 'yyyy-MM-dd',
+      daysToKeep: 30,
+      numBackups: 3,
+      compress: true, // 配置日志文件是否压缩
+      category: 'mysql', // category 类型
+      keepFileExt: true,
+    },
     // 异常日志
     errorFile: {
       type: 'dateFile',
@@ -65,9 +97,10 @@ const log4jsConfig = {
   categories: {
     default: {
       appenders: ['console', 'access', 'app', 'errors'],
-      level: 'DEBUG',
+      level: 'DEBUG', // 日志调试阶段
     },
-    mysql: { appenders: ['access', 'errors'], level: 'info' },
+    mail: { appenders: ['mail', 'errors'], level: 'info' },
+    mysql: { appenders: ['mysql', 'errors'], level: 'info' },
     http: { appenders: ['access'], level: 'DEBUG' },
   },
 };
