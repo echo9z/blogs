@@ -1,16 +1,26 @@
-import { BeforeInsert, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { makeSalt, encryptPassword } from 'src/utils/cryptogram';
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import { encrypt } from 'src/utils/cryptogram';
 import { Exclude } from 'class-transformer';
 
-@Entity('user')
+export enum UserRole {
+  Admin = 'admin',
+  Author = 'author',
+  Visitor = 'visitor',
+}
+@Entity('e_user') // e_user 对应数据库中的表名
 export class User {
+  @Exclude()
   @PrimaryGeneratedColumn('uuid')
   userId: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
+  username: string; // 昵称
+
+  @Column({ length: 100, nullable: true })
   nickname: string; // 昵称
 
-  @Column({ length: 100 })
+  @Exclude()
+  @Column({ default: null })
   wxOpenId: string; // wxID
 
   @Exclude() // 对返回的数据实现过滤掉password字段的效果
@@ -20,16 +30,18 @@ export class User {
   @Column({ default: null })
   userEmail: string; // 邮箱
 
+  @Exclude()
   @Column({ default: null })
   userEmailCode: string; // 新用户注册邮件激活唯一校验码
 
+  @Exclude()
   @Column({ default: null })
   isActive: string;
 
-  @Column()
+  @Column({ default: null })
   userAvatar: string; //头像
 
-  @Column('simple-enum', { enum: ['保密', '女', '男'], default: '保密' })
+  @Column({ type: 'enum', enum: ['保密', '女', '男'], default: '保密' })
   userSex: string; // 性别
 
   @Column({ default: null })
@@ -38,8 +50,9 @@ export class User {
   @Column({ default: null })
   phone: string; // 手机号
 
-  @Column('simple-enum', {
-    enum: ['nan', 'author', 'visitor'],
+  @Column({
+    type: 'enum',
+    enum: UserRole,
     default: 'visitor',
   })
   role: string; // 用户角色
@@ -51,6 +64,7 @@ export class User {
   })
   createTime: Date;
 
+  @Exclude()
   @Column({
     name: 'update_time',
     type: 'timestamp',
@@ -58,8 +72,9 @@ export class User {
   })
   updateTime: Date;
 
-  @BeforeInsert()
+  @BeforeInsert() // 在插入之前
   async encryptPwd() {
-    this.password = await encryptPassword(this.password, makeSalt());
+    if (!this.password) return;
+    this.password = encrypt(this.password);
   }
 }

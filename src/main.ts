@@ -55,7 +55,7 @@ async function bootstrap() {
   // 监听所有的请求路由，并打印日志
   app.use(new RequestMiddleware().use);
 
-  app.useGlobalFilters(new AnyExceptionFilter());
+  // app.useGlobalFilters(new AnyExceptionFilter());
 
   const PORT = process.env.PORT || 18080;
   await app.listen(

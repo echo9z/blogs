@@ -12,6 +12,8 @@ import { DbLogger } from './utils/log4js';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { UserModule } from './module/user/user.module';
 import { MailModule } from './module/mail/mail.module';
+import { CategoryModule } from './module/category/category.module';
+import parseEnv from '../config/env';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { MailModule } from './module/mail/mail.module';
     ConfigModule.forRoot({
       isGlobal: true, // 全局导入
       cache: true,
-      envFilePath: `${process.env.NODE_ENV}.env`, // 会读取根文件下 .env文件
+      envFilePath: [parseEnv.path], // 会读取根文件下 .env文件 `${process.env.NODE_ENV}.env`
       load: [configuration], // 读取的是自定义配置文件 configuration.ts 数据配置文件
     }),
     TypeOrmModule.forRootAsync({
@@ -37,7 +39,8 @@ import { MailModule } from './module/mail/mail.module';
           database: dataBase.database, //数据库名
           logging: dataBase.logging,
           synchronize: dataBase.synchronize, //根据实体自动创建数据库表， 生产环境建议关闭
-          logger: new DbLogger(),
+          autoLoadEntities: dataBase.autoLoadEntities, // 自动导入entity 实体
+          // logger: new DbLogger(),
           timezone: '+08:00', //服务器上配置的时区
         };
       },
@@ -50,6 +53,7 @@ import { MailModule } from './module/mail/mail.module';
     AuthModule,
     UserModule,
     MailModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [

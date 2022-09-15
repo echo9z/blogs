@@ -7,29 +7,29 @@ import {
   Param,
   Delete,
   HttpException,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('用户')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  async register(createUser: CreateUserDto) {
-    // const { username } = createUser;
-    // const existUser = await this.userRepository.findOne({
-    //   where: { username },
-    // });
-    // if (existUser) {
-    //   throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
-    // }
-    // const newUser = await this.userRepository.create(createUser);
-    // return await this.userRepository.save(newUser);
+  @ApiOperation({ summary: '注册用户' })
+  @ApiResponse({ status: 201, type: [CreateUserDto] })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('register')
+  async register(@Body() createUser: CreateUserDto) {
+    return await this.userService.register(createUser);
   }
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  @Post('create')
+  async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
@@ -40,7 +40,7 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')

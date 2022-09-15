@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as Moment from 'moment';
 import * as path from 'path';
 import { Logger } from '../../utils/log4js';
-// import { CreateMailDto } from './dto/create-mail.dto';
+import { CreateMailDto } from './dto/create-mail.dto';
 // import { UpdateMailDto } from './dto/update-mail.dto';
 
 @Injectable()
@@ -14,7 +14,8 @@ export class MailService {
    * 发送邮件验证码
    * @param data 邮件主体信息
    */
-  async sendEmailCode(data) {
+  async sendEmailCode(data: CreateMailDto) {
+    console.log(process.cwd());
     try {
       const code = Math.random().toString().slice(-6);
       const date = Moment().format('YYYY年MM月DD日 HH:mm:ss');

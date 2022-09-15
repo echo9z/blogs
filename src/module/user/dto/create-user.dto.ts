@@ -23,6 +23,7 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({ description: '邮箱' })
+  @IsOptional()
   @IsEmail()
   userEmail: string; // 邮箱
 
@@ -59,5 +60,6 @@ export class CreateUserDto {
   phone: string; // 号码
 
   @ApiProperty({ description: '用户角色' })
+  @IsOptional()
   role: string;
 }
