@@ -13,6 +13,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { UserModule } from './module/user/user.module';
 import { MailModule } from './module/mail/mail.module';
 import { CategoryModule } from './module/category/category.module';
+import { UploadModule } from './module/upload/upload.module';
 import parseEnv from '../config/env';
 
 @Module({
@@ -54,6 +55,7 @@ import parseEnv from '../config/env';
     UserModule,
     MailModule,
     CategoryModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [

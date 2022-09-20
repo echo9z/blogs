@@ -4,7 +4,7 @@
  * @author echo9z
  * @date 2022/09/12 16:14:12
  */
-
+import file from './uploadFile.conf';
 export default () => ({
   dataBase: {
     type: 'mysql',
@@ -29,4 +29,5 @@ export default () => ({
     pass: process.env.SMTP_PASS,
     from: process.env.SMTP_FROM,
   },
+  file,
 });

@@ -1,7 +1,8 @@
 # compiled output
 /dist
 /node_modules
-
+/assets
+package-lock.json
 # Logs
 /logs
 logs

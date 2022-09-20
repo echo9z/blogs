@@ -24,10 +24,10 @@ export class AnyExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
+    console.log('--', exception);
 
     // 自定义的异常信息结构, 响应用
-    const error_info = exception.response ? exception.response : exception;
-    const error_data = exception.response?.data ? exception.response.data : {};
+    const error_info = exception ? exception.stack : exception;
     let error_msg = exception.response
       ? exception.response.message
         ? exception.response.message
@@ -41,7 +41,11 @@ export class AnyExceptionFilter implements ExceptionFilter {
     if (status === HttpStatus.NOT_FOUND) {
       error_msg = `资源不存在! 接口 ${request.method} -> ${request.url} 无效!`;
     }
-    const logFormat = `URL: ${request.originalUrl} Method: ${request.method} IP: ${request.ip} HttpCode: ${status} params: ${request.params} query: ${request.query} body: ${request.body} statusCode: ${error_code} errorMsg: ${error_msg} errorData: ${error_data} errorInfo: ${error_info}`;
+    console.log(request.params);
+    const params = request.params === '{}' ? 'params:' + request.params : '';
+    const query = request.query === '{}' ? 'query:' + request.query : '';
+    const body = request.body === '{}' ? 'body:' + request.body : '';
+    const logFormat = `URL: ${request.originalUrl} Method: ${request.method} IP: ${request.ip} HttpCode: ${status} ${params} ${query} ${body} statusCode: ${error_code} errorMsg: ${error_msg} errorInfo: ${error_info}`;
 
     Logger.error(logFormat);
     response.status(status || 500).json({

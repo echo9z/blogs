@@ -6,6 +6,7 @@ import {
   IsEmail,
   MaxLength,
   MinLength,
+  IsEnum,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -61,5 +62,8 @@ export class CreateUserDto {
 
   @ApiProperty({ description: '用户角色' })
   @IsOptional()
+  @IsEnum(['admin', 'author', 'visitor'], {
+    message: 'admin或author或visitor',
+  })
   role: string;
 }

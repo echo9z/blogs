@@ -3,9 +3,9 @@ import { UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { StrategyOptions, Strategy, ExtractJwt } from 'passport-jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 
 export class JwtStorage extends PassportStrategy(Strategy) {
   constructor(

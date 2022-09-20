@@ -5,10 +5,10 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { User } from '../user/entities/user.entity';
-import { LocalStorage } from './local.strategy';
+import { LocalStorage } from './strategy/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { JwtStorage } from './jwt.strategy';
+import { JwtStorage } from './strategy/jwt.strategy';
 
 const jwtModule = JwtModule.registerAsync({
   inject: [ConfigService],

@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
 import { encrypt } from 'src/utils/cryptogram';
 import { Exclude } from 'class-transformer';
 
+// 用户角色
 export enum UserRole {
   Admin = 'admin',
   Author = 'author',

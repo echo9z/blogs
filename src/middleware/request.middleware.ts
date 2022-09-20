@@ -1,7 +1,12 @@
+/**
+ * @description 统一处理请求中间件
+ * @fileName request.middleware.ts
+ * @author echo9z
+ * @date 2022/09/19 21:36:53
+ */
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Logger } from '../utils/log4js';
-
 @Injectable()
 export class RequestMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void) {
@@ -16,6 +21,7 @@ export class RequestMiddleware implements NestMiddleware {
     if (code >= 500) {
       Logger.error(logFormat);
     } else if (code >= 400) {
+      console.log(400);
       Logger.warn(logFormat);
     } else {
       Logger.access(logFormat);

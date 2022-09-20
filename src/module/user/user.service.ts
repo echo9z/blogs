@@ -30,11 +30,8 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
+    console.log('执行');
     return await this.userRepository.save(createUserDto);
-  }
-
-  findAll() {
-    return `This action returns all user`;
   }
 
   async findOne(userId: string) {

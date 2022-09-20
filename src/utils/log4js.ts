@@ -1,3 +1,9 @@
+/**
+ * @description log4js 调用日志工具
+ * @fileName log4js.ts
+ * @author echo9z
+ * @date 2022/09/19 19:18:47
+ */
 import * as Path from 'path';
 import * as Log4js from 'log4js';
 import * as Util from 'util';
