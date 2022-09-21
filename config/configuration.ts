@@ -30,4 +30,18 @@ export default () => ({
     from: process.env.SMTP_FROM,
   },
   file,
+  redis: {
+    config: {
+      host: process.env.REDIS_HOST || '127.0.0.1',
+      port: process.env.REDIS_PORT || 6379,
+      // db: 0,
+      password: process.env.REDIS_PASS || '',
+      keyPrefix: process.env.REDIS_KEY_PREFIX || '',
+      onClientReady: (client) => {
+        client.on('error', (err) => {
+          console.log('-----redis error-----', err);
+        });
+      },
+    },
+  },
 });

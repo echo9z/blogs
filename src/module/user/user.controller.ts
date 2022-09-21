@@ -48,6 +48,7 @@ export class UserController {
     return req.user;
   }
 
+  // 测试角色信息
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.Admin)
   @Post('create')
@@ -55,7 +56,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get(':id')
+  /* @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
@@ -68,5 +69,5 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
-  }
+  } */
 }

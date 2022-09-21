@@ -23,7 +23,7 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
-  @Get()
+  /* @Get()
   findAll() {
     return this.categoryService.findAll();
   }
@@ -44,5 +44,5 @@ export class CategoryController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.categoryService.remove(+id);
-  }
+  } */
 }
