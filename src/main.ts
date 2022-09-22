@@ -43,7 +43,7 @@ async function bootstrap() {
   // app.use(csurf({ cookie: true }));
 
   //配置静态资源目录
-  app.useStaticAssets('public');
+  app.useStaticAssets('assets');
 
   // 使用压缩中间件启用 gzip 压缩
   // app.use(compression());

@@ -10,17 +10,16 @@ import {
   Res,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-// import { CreateUploadDto } from './create-upload.dto';
 import { UploadService } from './upload.service';
 import { Response } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('上传文件')
 @Controller('file')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  // 单文件上传
+  @ApiOperation({ summary: '单文件上传' })
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
@@ -28,7 +27,7 @@ export class UploadController {
     return true;
   }
 
-  // 多文件上传
+  @ApiOperation({ summary: '多文件上传' })
   @Post('uploads')
   @UseInterceptors(FilesInterceptor('file'))
   uploadMuliFile(@UploadedFiles() files, @Body() body) {
@@ -36,7 +35,7 @@ export class UploadController {
     return true;
   }
 
-  // 下载
+  @ApiOperation({ summary: '压缩文件下载' })
   @Get('export')
   async downloadAll(@Res() res: Response) {
     const { filename, tarStream } = await this.uploadService.downloadAll();

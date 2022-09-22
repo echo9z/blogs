@@ -3,14 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
   Delete,
-  HttpException,
   UseInterceptors,
   ClassSerializerInterceptor,
   UseGuards,
   Req,
+  Put,
+  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,13 +18,13 @@ import {
   ApiTags,
   ApiOperation,
   ApiResponse,
-  ApiHeader,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { Roles } from '../auth/roles/roles.decorator';
 import { UserRole } from './entities/user.entity';
+import { Auth } from 'src/decorator/auth.decorator';
 
 @ApiTags('用户')
 @Controller('user')
@@ -48,26 +47,35 @@ export class UserController {
     return req.user;
   }
 
-  // 测试角色信息
-  // @UseGuards(AuthGuard('jwt'), RolesGuard)
-  // @Roles(UserRole.Admin)
-  // @Post('create')
-  // async create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
-
-  /* @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  // 获取所有 用户信息
+  @ApiOperation({ summary: '获取用户列表所有信息' })
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(UserRole.Admin)
+  @Get('userAll')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async findAll() {
+    return this.userService.findAll();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @ApiOperation({ summary: '根据获取用户username信息' })
+  @Get('username')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async findUsername(@Body() createUser: CreateUserDto) {
+    return await this.userService.findUsername(createUser.username);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  } */
+  @ApiOperation({ summary: '根据username获取用户信息' })
+  @Auth([UserRole.Admin])
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Put('profile')
+  update(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(req.user.userId, updateUserDto);
+  }
+
+  @ApiOperation({ summary: '根据username获取用户信息' })
+  @Auth([UserRole.Admin])
+  @Delete('profile')
+  remove(createUser: CreateUserDto) {
+    return this.userService.remove(createUser.userId);
+  }
 }

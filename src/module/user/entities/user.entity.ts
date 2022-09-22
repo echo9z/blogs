@@ -27,33 +27,23 @@ export class User {
   @Column({ length: 100, nullable: true })
   nickname: string; // 昵称
 
-  @Exclude()
-  @Column({ default: null })
-  wxOpenId: string; // wxID
-
   @Exclude() // 对返回的数据实现过滤掉password字段的效果
   @Column({ select: false, nullable: true }) // 进行查询时是否默认隐藏此列
   password: string; // 密码
 
   @Column({ default: null })
-  userEmail: string; // 邮箱
+  email: string; // 邮箱
 
   @Exclude()
   @Column({ default: null })
-  userEmailCode: string; // 新用户注册邮件激活唯一校验码
+  emailCode: string; // 新用户注册邮件激活唯一校验码
 
   @Exclude()
   @Column({ default: null })
-  isActive: string;
+  openid: string; // wxID
 
   @Column({ default: null })
-  userAvatar: string; //头像
-
-  @Column({ type: 'enum', enum: ['保密', '女', '男'], default: '保密' })
-  userSex: string; // 性别
-
-  @Column({ default: null })
-  userWx: string; // 微信号
+  avatar: string; //头像
 
   @Column({ default: null })
   phone: string; // 手机号
@@ -64,6 +54,10 @@ export class User {
     default: 'visitor',
   })
   role: string; // 用户角色
+
+  @Exclude()
+  @Column({ default: '0' }) // 新用户是否已经通过邮箱激活帐号 0不是1是
+  isActive: string;
 
   @Column({
     name: 'create_time',
