@@ -49,12 +49,12 @@ export class UserController {
   }
 
   // 测试角色信息
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(UserRole.Admin)
-  @Post('create')
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
+  // @UseGuards(AuthGuard('jwt'), RolesGuard)
+  // @Roles(UserRole.Admin)
+  // @Post('create')
+  // async create(@Body() createUserDto: CreateUserDto) {
+  //   return this.userService.create(createUserDto);
+  // }
 
   /* @Get(':id')
   findOne(@Param('id') id: string) {

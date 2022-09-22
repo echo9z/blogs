@@ -1,27 +1,26 @@
-import { Exclude } from 'class-transformer';
 import { Articles } from 'src/module/articles/entities/article.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('e_category')
-export class Category {
-  @PrimaryGeneratedColumn() // 自动生成id
+@Entity('e_tag')
+export class Tag {
+  @PrimaryGeneratedColumn()
   id: number;
 
+  // 标签名
   @Column()
   name: string;
 
-  // 文章分类 一个分类 对应 多个文章
-  @OneToMany(() => Articles, (articles) => articles.category)
+  // 多对多 一个标签 对应 多个文章
+  @ManyToMany(() => Articles, (articles) => articles.tags)
   articles: Array<Articles>;
 
-  @Exclude()
   @CreateDateColumn({
     type: 'timestamp',
     comment: '创建时间',
@@ -29,7 +28,6 @@ export class Category {
   })
   createTime: Date;
 
-  @Exclude()
   @UpdateDateColumn({
     type: 'timestamp',
     comment: '更新时间',

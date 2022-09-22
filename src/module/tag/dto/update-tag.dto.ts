@@ -1,8 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { CreateCategoryDto } from './create-category.dto';
+import { CreateTagDto } from './create-tag.dto';
 
-export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
+export class UpdateTagDto extends PartialType(CreateTagDto) {
   @ApiProperty({ description: '分类名称' })
   @IsString()
   name: string;

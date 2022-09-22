@@ -6,11 +6,11 @@ import { Roles } from 'src/module/auth/roles/roles.decorator';
 import { RolesGuard } from 'src/module/auth/roles/roles.guard';
 
 // 使用 @Auth('admin')
-export function Auth(roles: UserRole) {
+export function Auth(roles: UserRole[]) {
   return applyDecorators(
     UseGuards(AuthGuard('jwt'), RolesGuard),
     ApiBearerAuth(),
-    Roles(roles),
+    Roles(...roles),
     ApiUnauthorizedResponse({ description: 'Unauthorized"' }),
   );
 }

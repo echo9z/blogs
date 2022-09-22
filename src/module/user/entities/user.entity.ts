@@ -1,6 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 import { encrypt } from 'src/utils/cryptogram';
 import { Exclude } from 'class-transformer';
+import { Articles } from 'src/module/articles/entities/article.entity';
 
 // 用户角色
 export enum UserRole {
@@ -64,6 +71,10 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   createTime: Date;
+
+  // 外联 到 articles表的 author字段， 一个用户 对应多个 文章
+  @OneToMany(() => Articles, (articles) => articles.author)
+  articles: Articles[];
 
   @Exclude()
   @Column({

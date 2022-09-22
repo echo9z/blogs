@@ -1,28 +1,28 @@
-import { Category } from './entities/category.entity';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
 import { FindLimitDto } from 'src/dto/find-limit.dto';
+import { Like, Repository } from 'typeorm';
+import { CreateTagDto } from './dto/create-tag.dto';
+import { UpdateTagDto } from './dto/update-tag.dto';
+import { Tag } from './entities/tag.entity';
 import * as Moment from 'moment';
 
 @Injectable()
-export class CategoryService {
+export class TagService {
   constructor(
-    @InjectRepository(Category) // 在服务里面使用@InjectRepository获取数据库Model实现操作数据库
-    private categoryRepository: Repository<Category>,
+    @InjectRepository(Tag) // 在服务里面使用@InjectRepository获取数据库Model实现操作数据库
+    private tagRepository: Repository<Tag>,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    const cate = await this.categoryRepository.findOne({
+  async create(createCategoryDto: CreateTagDto) {
+    const cate = await this.tagRepository.findOne({
       where: { name: createCategoryDto.name },
     });
     if (cate) {
-      throw new HttpException('分类已存在', HttpStatus.BAD_REQUEST);
+      throw new HttpException('标签已存在', HttpStatus.BAD_REQUEST);
     }
     return {
-      data: await this.categoryRepository.save({
+      data: await this.tagRepository.save({
         name: createCategoryDto.name,
       }),
       message: '创建成功',
@@ -41,7 +41,7 @@ export class CategoryService {
     console.log(find);
 
     // 使用QueryBuilder获取值
-    const qb = await this.categoryRepository.createQueryBuilder('e_category');
+    const qb = await this.tagRepository.createQueryBuilder('e_category');
     if (keyword) {
       // 添加关键词模糊查询
       qb.where({ username: Like(`%${keyword}`) });
@@ -59,7 +59,7 @@ export class CategoryService {
   }
 
   async findOne(id: string) {
-    return await this.categoryRepository
+    return await this.tagRepository
       .createQueryBuilder('e_category')
       .where('e_category.id = :id', { id })
       .getOne();
@@ -67,37 +67,37 @@ export class CategoryService {
 
   // 数量
   async getCount() {
-    return await this.categoryRepository.count();
+    return await this.tagRepository.count();
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    const existRow = await this.categoryRepository.findOne({
+  async update(id: number, updateTagDto: UpdateTagDto) {
+    const existRow = await this.tagRepository.findOne({
       where: { id },
     });
     console.log(existRow);
     if (!existRow) {
-      throw new HttpException(`id为${id}的分类不存在`, HttpStatus.BAD_REQUEST);
+      throw new HttpException(`id为${id}的标签不存在`, HttpStatus.BAD_REQUEST);
     }
     // 调用 Repository.merge合并函数 updateUserDto覆盖existRecord 合并
-    const update = this.categoryRepository.merge(existRow, {
-      ...updateCategoryDto,
+    const update = this.tagRepository.merge(existRow, {
+      ...updateTagDto,
       updateTime: Moment().format(),
     });
     console.log(update);
     return {
-      data: await this.categoryRepository.save(update),
+      data: await this.tagRepository.save(update),
       message: '更新成功',
     };
   }
 
   async remove(id: number) {
-    const existPost = await this.categoryRepository.findOne({
+    const existPost = await this.tagRepository.findOne({
       where: { id },
     });
     if (!existPost) {
-      throw new HttpException(`分类${id}不存在`, HttpStatus.BAD_REQUEST);
+      throw new HttpException(`标签${id}不存在`, HttpStatus.BAD_REQUEST);
     }
-    await this.categoryRepository.remove(existPost);
+    await this.tagRepository.remove(existPost);
     return {
       id,
       message: '删除成功',

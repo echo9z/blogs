@@ -15,6 +15,8 @@ import { MailModule } from './module/mail/mail.module';
 import { CategoryModule } from './module/category/category.module';
 import { UploadModule } from './module/upload/upload.module';
 import { RedisClientModule } from './module/redis-client/redis-client.module';
+import { ArticlesModule } from './module/articles/articles.module';
+import { TagModule } from './module/tag/tag.module';
 import parseEnv from '../config/env';
 
 @Module({
@@ -58,6 +60,8 @@ import parseEnv from '../config/env';
     CategoryModule,
     UploadModule,
     RedisClientModule,
+    ArticlesModule,
+    TagModule,
   ],
   controllers: [AppController],
   providers: [

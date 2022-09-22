@@ -1,18 +1,9 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCategoryDto {
-  @IsNotEmpty({ message: '请输入分类名' })
-  catName: string;
-
-  @IsOptional()
-  catPid: number;
-
-  @IsOptional()
-  catLevel: string; // 分类层级 0: 顶级 1:二级 2:三级
-
-  @IsOptional()
-  catDeleted: number; // cat_deleted 是否删除 1为删除
-
-  @IsOptional()
-  catIco: string;
+  @ApiProperty({ description: '分类名称' })
+  @IsNotEmpty({ message: '请输入分类名称' })
+  @IsString()
+  name: string;
 }
