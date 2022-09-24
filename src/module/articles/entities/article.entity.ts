@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import { Category } from 'src/module/category/entities/category.entity';
 import { Tag } from 'src/module/tag/entities/tag.entity';
 import { User } from 'src/module/user/entities/user.entity';
@@ -48,15 +47,17 @@ export class Articles {
   isRecommend: number;
 
   // 文章状态
-  @Column('simple-enum', { enum: ['draft', 'publish'] })
+  @Column('enum', { enum: ['draft', 'publish'], default: 'publish' })
   status: string;
 
   // 作者 关联的user的 id
-  @ManyToOne((type) => User, (user) => user.articles)
+  @ManyToOne(() => User, (user) => user.articles)
+  @JoinColumn({
+    name: 'author',
+  })
   author: User;
 
   // 分类 一个文章 对应 多个分类
-  @Exclude()
   @ManyToOne(() => Category, (category) => category.articles)
   @JoinColumn({
     name: 'category_id',

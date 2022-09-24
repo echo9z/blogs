@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindLimitDto } from 'src/dto/find-limit.dto';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './entities/tag.entity';
@@ -60,11 +60,16 @@ export class TagService {
 
   async findOne(id: string) {
     return await this.tagRepository
-      .createQueryBuilder('e_category')
-      .where('e_category.id = :id', { id })
+      .createQueryBuilder('tag')
+      .where('tag.id = :id', { id })
       .getOne();
   }
 
+  // 按 ID 查找多个实体。
+  async findByIds(ids: string[]) {
+    // 一次性查询多个tag数据
+    return await this.tagRepository.findBy({ id: In(ids) });
+  }
   // 数量
   async getCount() {
     return await this.tagRepository.count();

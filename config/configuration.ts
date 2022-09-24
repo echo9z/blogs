@@ -17,6 +17,7 @@ export default () => ({
     autoLoadEntities: process.env.DB_AutoLoadEntities || true, // 自动载入模型
     maxQueryExecutionTime: process.env.DB_MaxQueryExecutionTime || 1000, // 记录超过1秒的查询
     logging: process.env.DB_Logging || true, // 是否打印日志,执行sql语句时候输出原生sql,
+    connectTimeout: 50000, // mysql 服务连接异常时，每隔5秒连接一次尝试连接
   },
   jwt: {
     secret: process.env.JWT_SECRET || '123456', // 安全密钥

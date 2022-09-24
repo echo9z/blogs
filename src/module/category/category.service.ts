@@ -58,10 +58,10 @@ export class CategoryService {
     };
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     return await this.categoryRepository
-      .createQueryBuilder('e_category')
-      .where('e_category.id = :id', { id })
+      .createQueryBuilder('category')
+      .where('category.id = :id', { id })
       .getOne();
   }
 

@@ -19,15 +19,18 @@ export class UserService {
    * @param createUser - 前端传入数据
    */
   async register(createUser: CreateUserDto) {
-    const { username, password, confirmPwd } = createUser;
+    const { username, password, confirmPwd, avatar } = createUser;
     const user = await this.userRepository.findOne({
       where: { username },
     });
-    if (user) {
-      throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST); // 抛出400
-    }
-    if (password !== confirmPwd) {
+    if (user) throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST); // 抛出400
+    if (password !== confirmPwd)
       throw new HttpException('两次密码不一致', HttpStatus.BAD_REQUEST);
+    if (!avatar) {
+      Object.assign(createUser, {
+        // eslint-disable-next-line prettier/prettier
+        avatar: `https://avatars.dicebear.com/api/pixel-art/:${Math.floor(Math.random()*10)}.jpg`,
+      });
     }
     const newUser = await this.userRepository.create(createUser); // 创建User的新实例
     const result = await this.userRepository.save(newUser);

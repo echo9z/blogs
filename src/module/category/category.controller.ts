@@ -41,8 +41,8 @@ export class CategoryController {
 
   @ApiOperation({ summary: '根据id获取分类' })
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
-  async findOne(@Param('id') id: string) {
+  // @UseInterceptors(ClassSerializerInterceptor)
+  async findOne(@Param('id') id: number) {
     return await this.categoryService.findOne(id);
   }
 

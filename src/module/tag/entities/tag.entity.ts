@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Articles } from 'src/module/articles/entities/article.entity';
 import {
   Column,
@@ -21,6 +22,7 @@ export class Tag {
   @ManyToMany(() => Articles, (articles) => articles.tags)
   articles: Array<Articles>;
 
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamp',
     comment: '创建时间',
@@ -28,6 +30,7 @@ export class Tag {
   })
   createTime: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'timestamp',
     comment: '更新时间',

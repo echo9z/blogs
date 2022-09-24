@@ -19,7 +19,7 @@ export class Category {
 
   // 文章分类 一个分类 对应 多个文章
   @OneToMany(() => Articles, (articles) => articles.category)
-  articles: Array<Articles>;
+  articles: Articles[];
 
   @Exclude()
   @CreateDateColumn({

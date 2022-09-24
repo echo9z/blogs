@@ -59,16 +59,17 @@ export class User {
   @Column({ default: '0' }) // 新用户是否已经通过邮箱激活帐号 0不是1是
   isActive: string;
 
+  // 外联 到 articles表的 author字段， 一个用户 对应多个 文章
+  @OneToMany(() => Articles, (articles) => articles.author)
+  articles: Articles[];
+
+  @Exclude()
   @Column({
     name: 'create_time',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createTime: Date;
-
-  // 外联 到 articles表的 author字段， 一个用户 对应多个 文章
-  @OneToMany(() => Articles, (articles) => articles.author)
-  articles: Articles[];
 
   @Exclude()
   @Column({
