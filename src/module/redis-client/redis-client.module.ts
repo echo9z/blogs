@@ -20,5 +20,6 @@ import { ConfigService } from '@nestjs/config';
   ],
   controllers: [RedisClientController],
   providers: [RedisClientService],
+  exports: [RedisClientService],
 })
 export class RedisClientModule {}

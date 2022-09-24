@@ -50,8 +50,8 @@ export class ArticlesController {
 
   @ApiOperation({ summary: '文章归档' })
   @Get('/archives/list')
-  getArchiveList(@Query('time') time: string) {
-    return this.articlesService.getArchiveList(time);
+  getArchiveList(@Body() body: any) {
+    return this.articlesService.getArchiveList(body.time);
   }
 
   @ApiOperation({ summary: '根据id获取文章' })

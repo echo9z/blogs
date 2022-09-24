@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { NestExpressApplication } from '@nestjs/platform-express';
-// import * as csurf from 'csurf';
+import * as csurf from 'csurf';
 import { expressCspHeader, INLINE, NONE, SELF } from 'express-csp-header';
 import * as compression from 'compression';
 import { RequestMiddleware } from './middleware/request.middleware';
@@ -40,7 +40,7 @@ async function bootstrap() {
   // );
 
   // CSRF保护：跨站点请求伪造
-  // app.use(csurf({ cookie: true }));
+  // app.use(csurf());
 
   //配置静态资源目录
   app.useStaticAssets('assets');

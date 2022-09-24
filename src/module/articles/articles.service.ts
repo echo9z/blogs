@@ -9,6 +9,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { Articles } from './entities/article.entity';
 import moment from 'src/utils/momentUtil';
 import { User } from '../user/entities/user.entity';
+import { RedisClientService } from '../redis-client/redis-client.service';
 
 @Injectable()
 export class ArticlesService {
@@ -17,6 +18,7 @@ export class ArticlesService {
     private articlesRepository: Repository<Articles>,
     private readonly categoryService: CategoryService,
     private readonly tagService: TagService,
+    private readonly redisClientService: RedisClientService,
   ) {}
 
   async create(user, articles: CreateArticleDto) {
@@ -119,6 +121,10 @@ export class ArticlesService {
 
   /** 根据id查询对应文章 */
   async findById(id: number): Promise<any> {
+    const isExist: string = await this.redisClientService.get(`article-${id}`);
+    if (isExist) {
+      return JSON.parse(isExist);
+    }
     const article = await this.articlesRepository.findOne({ where: { id } });
     const qb = this.articlesRepository.createQueryBuilder('article');
     await qb
@@ -134,6 +140,8 @@ export class ArticlesService {
       .setParameter('id', id);
     // console.log(qb);
     const result = await qb.getOne();
+
+    this.redisClientService.set(`article-${id}`, JSON.stringify(result), 3600);
     return { result };
   }
 

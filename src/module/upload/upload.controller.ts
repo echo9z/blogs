@@ -23,6 +23,7 @@ export class UploadController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
+    // console.log(file);
     this.uploadService.uploadSingleFile(file);
     return true;
   }
