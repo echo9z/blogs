@@ -73,6 +73,7 @@ export class ArticlesController {
   }
 
   @ApiOperation({ summary: '删除id文章' })
+  @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   async remove(@Param('id') id) {

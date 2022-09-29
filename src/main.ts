@@ -23,7 +23,8 @@ async function bootstrap() {
   // 方式二：const app = await NestFactory.create(AppModule, { cors: true });
 
   // 防止跨站脚本攻击
-  app.use(helmet());
+  // 配置cross-origin 接口图片的资源光宇问题
+  app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 
   // CSP（内容安全策略）
   // app.use(

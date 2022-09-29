@@ -6,8 +6,14 @@ export class CreateArticleDto {
   @IsNotEmpty({ message: '文章标题必填' })
   readonly title: string;
 
-  @ApiPropertyOptional({ description: '内容' })
+  @ApiPropertyOptional({ description: 'md内容' })
   readonly content: string;
+
+  @ApiPropertyOptional({ description: 'html内容' })
+  readonly contentHtml: string;
+
+  @ApiPropertyOptional({ description: '文章摘要' })
+  readonly summary: string;
 
   @ApiPropertyOptional({ description: '文章封面' })
   readonly coverUrl: string;

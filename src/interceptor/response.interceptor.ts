@@ -29,7 +29,7 @@ export class ResponseInterceptor implements NestInterceptor {
         return {
           status: 200,
           timestamp: new Date().toISOString(),
-          path: req.url,
+          // path: req.url,
           message: '请求成功',
           data: data,
         };

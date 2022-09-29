@@ -21,7 +21,7 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @ApiOperation({ summary: '创建标签' })
-  @Post('createCate')
+  @Post('createTag')
   async create(@Body() createTagDto: CreateTagDto) {
     return await this.tagService.create(createTagDto);
   }

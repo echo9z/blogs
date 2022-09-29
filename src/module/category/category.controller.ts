@@ -35,7 +35,7 @@ export class CategoryController {
   @ApiOperation({ summary: '获取所有分类' })
   @Get('list')
   @UseInterceptors(ClassSerializerInterceptor)
-  async findAll(@Body() body: FindLimitDto) {
+  async findAll(@Body() body?: FindLimitDto) {
     return await this.categoryService.findAll(body);
   }
 

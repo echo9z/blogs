@@ -22,10 +22,15 @@ export class UploadController {
   @ApiOperation({ summary: '单文件上传' })
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
     // console.log(file);
-    this.uploadService.uploadSingleFile(file);
-    return true;
+    const { filename, path, mimetype } =
+      await this.uploadService.uploadSingleFile(file);
+    return {
+      filename,
+      mimetype,
+      url: `http://127.0.0.1:18080/${path.substring(path.indexOf('uploads'))}`,
+    };
   }
 
   @ApiOperation({ summary: '多文件上传' })
