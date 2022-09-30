@@ -23,18 +23,18 @@ export class Tag {
   articles: Array<Articles>;
 
   @Exclude()
-  @CreateDateColumn({
-    type: 'timestamp',
-    comment: '创建时间',
+  @Column({
     name: 'create_time',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   createTime: Date;
 
   @Exclude()
-  @UpdateDateColumn({
-    type: 'timestamp',
-    comment: '更新时间',
+  @Column({
     name: 'update_time',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   updateTime: Date;
 }

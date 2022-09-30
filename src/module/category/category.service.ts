@@ -21,11 +21,12 @@ export class CategoryService {
     if (cate) {
       throw new HttpException('分类已存在', HttpStatus.BAD_REQUEST);
     }
+    const newCate = await this.categoryRepository.save({
+      name: createCategoryDto.name,
+    });
     return {
-      data: await this.categoryRepository.save({
-        name: createCategoryDto.name,
-      }),
-      message: '创建成功',
+      id: newCate.id,
+      name: newCate.name,
     };
   }
 
@@ -56,6 +57,10 @@ export class CategoryService {
       pageSize,
       page,
     };
+  }
+
+  async getAllCategory() {
+    return await this.categoryRepository.find();
   }
 
   async findOne(id: number) {

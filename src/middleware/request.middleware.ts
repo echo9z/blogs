@@ -21,7 +21,6 @@ export class RequestMiddleware implements NestMiddleware {
     if (code >= 500) {
       Logger.error(logFormat);
     } else if (code >= 400) {
-      console.log(400);
       Logger.warn(logFormat);
     } else {
       Logger.access(logFormat);

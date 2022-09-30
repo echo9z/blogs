@@ -22,6 +22,7 @@ export class TagController {
 
   @ApiOperation({ summary: '创建标签' })
   @Post('createTag')
+  @UseInterceptors(ClassSerializerInterceptor)
   async create(@Body() createTagDto: CreateTagDto) {
     return await this.tagService.create(createTagDto);
   }
@@ -32,11 +33,18 @@ export class TagController {
     return await this.tagService.getCount();
   }
 
-  @ApiOperation({ summary: '获取所有标签' })
+  @ApiOperation({ summary: '分页所有标签' })
   @Get('list')
   @UseInterceptors(ClassSerializerInterceptor)
-  async findAll(@Body() body: FindLimitDto) {
+  async findTagAll(@Body() body: FindLimitDto) {
     return await this.tagService.findAll(body);
+  }
+
+  @ApiOperation({ summary: '获取所有标签' })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('allTags')
+  async getAllTags() {
+    return await this.tagService.getAllTags();
   }
 
   @ApiOperation({ summary: '根据id获取标签' })

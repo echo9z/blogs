@@ -21,11 +21,12 @@ export class TagService {
     if (cate) {
       throw new HttpException('标签已存在', HttpStatus.BAD_REQUEST);
     }
+    const newTag = await this.tagRepository.save({
+      name: createCategoryDto.name,
+    });
     return {
-      data: await this.tagRepository.save({
-        name: createCategoryDto.name,
-      }),
-      message: '创建成功',
+      id: newTag.id,
+      name: newTag.name,
     };
   }
 
@@ -56,6 +57,11 @@ export class TagService {
       pageSize,
       page,
     };
+  }
+
+  // 获取所有分类
+  async getAllTags() {
+    return await this.tagRepository.find();
   }
 
   async findOne(id: string) {

@@ -21,6 +21,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({ summary: '创建分类' })
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post('createCate')
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     return await this.categoryService.create(createCategoryDto);
@@ -32,11 +33,18 @@ export class CategoryController {
     return await this.categoryService.getCount();
   }
 
-  @ApiOperation({ summary: '获取所有分类' })
+  @ApiOperation({ summary: '获取所有分类列表' })
   @Get('list')
   @UseInterceptors(ClassSerializerInterceptor)
   async findAll(@Body() body?: FindLimitDto) {
     return await this.categoryService.findAll(body);
+  }
+
+  @ApiOperation({ summary: '获取所有分类列表' })
+  @Get('allCate')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAllCategory() {
+    return await this.categoryService.getAllCategory();
   }
 
   @ApiOperation({ summary: '根据id获取分类' })
