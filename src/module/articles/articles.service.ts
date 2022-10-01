@@ -129,7 +129,7 @@ export class ArticlesService {
     const qb = this.articlesRepository.createQueryBuilder('article');
     await qb
       .update()
-      .set({ count: article.count + 1 })
+      .set({ viewCount: article.viewCount + 1 })
       .where('id = :id', { id: 1 })
       .execute();
 

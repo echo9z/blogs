@@ -36,7 +36,7 @@ export class Articles {
 
   // 阅读量
   @Column({ type: 'int', default: 0 })
-  count: number;
+  viewCount: number;
 
   // 点赞量
   @Column({ type: 'int', default: 0, name: 'like_count' })

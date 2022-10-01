@@ -32,12 +32,12 @@ export class LocalStorage extends PassportStrategy(Strategy) {
       .getOne();
 
     if (!user) {
-      throw new BadRequestException('用户名不正确！');
+      throw new BadRequestException('用户名不存在！');
     }
-    // console.log(password, user.password);
+    // console.log(password, user.password);2
     // 将数据库中查询到的密码，通过 compareSync封装 AES进行解密进行效验
     if (!compareSync(password, user.password)) {
-      throw new BadRequestException('密码错误！');
+      throw new BadRequestException('密码不正确！');
     }
     return user;
   }

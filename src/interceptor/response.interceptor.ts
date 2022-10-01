@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
 import { Logger } from '../utils/log4js';
+import * as Moment from 'moment';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -28,7 +29,7 @@ export class ResponseInterceptor implements NestInterceptor {
         Logger.access(logFormat);
         return {
           status: 200,
-          timestamp: new Date().toISOString(),
+          timestamp: Moment().format('YYYY-MM-DD HH:mm:ss'),
           // path: req.url,
           message: '请求成功',
           data: data,

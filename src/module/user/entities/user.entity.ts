@@ -17,7 +17,6 @@ export enum UserRole {
 }
 @Entity('e_user') // e_user 对应数据库中的表名
 export class User {
-  @Exclude()
   @PrimaryGeneratedColumn('uuid')
   userId: string;
 

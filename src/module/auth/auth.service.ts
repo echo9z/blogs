@@ -22,9 +22,22 @@ export class AuthService {
       username: user.username,
       role: user.role,
     });
-    console.log();
-    const { nickname, role } = user;
-    return { msg: '登录成功', result: { nickname, role, token } };
+    const { 
+      avatar,
+      email,
+      nickname,
+      phone,
+      role,
+      userId,
+      username
+    } = user;
+
+    return { msg: '登录成功',
+      result: { avatar, email,
+        nickname, phone, role,
+        userId, username, token
+      } 
+    };
   }
 
   // 根据id查询用户信息

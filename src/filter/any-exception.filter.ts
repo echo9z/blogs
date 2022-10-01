@@ -49,9 +49,9 @@ export class AnyExceptionFilter implements ExceptionFilter {
 
     Logger.error(logFormat);
     response.status(status || 500).json({
-      code: status || 500,
-      time: Moment().format('YYYY-MM-DD HH:mm:ss'),
-      path: request.url,
+      status: status || 500,
+      timestamp: Moment().format('YYYY-MM-DD HH:mm:ss'),
+      // path: request.url,
       msg: `${(exception as any).message}`,
     });
   }

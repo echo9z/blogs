@@ -57,14 +57,14 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @ApiOperation({ summary: '根据获取用户username信息' })
+  @ApiOperation({ summary: '根据获取账户名称查询用户信息' })
   @Get('username')
   @UseInterceptors(ClassSerializerInterceptor)
   async findUsername(@Body() createUser: CreateUserDto) {
     return await this.userService.findUsername(createUser.username);
   }
 
-  @ApiOperation({ summary: '根据username获取用户信息' })
+  @ApiOperation({ summary: '根据用户id，更新用户' })
   @Auth([UserRole.Admin])
   @UseInterceptors(ClassSerializerInterceptor)
   @Put('profile')
@@ -72,7 +72,7 @@ export class UserController {
     return this.userService.update(req.user.userId, updateUserDto);
   }
 
-  @ApiOperation({ summary: '根据username获取用户信息' })
+  @ApiOperation({ summary: '根据用户id，删除用户' })
   @Auth([UserRole.Admin])
   @Delete('profile')
   remove(createUser: CreateUserDto) {
