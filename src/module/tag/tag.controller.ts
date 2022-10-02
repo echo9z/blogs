@@ -56,13 +56,13 @@ export class TagController {
 
   @ApiOperation({ summary: '根据id标签，进行更新' })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
-    return this.tagService.update(+id, updateTagDto);
+  async update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
+    return await this.tagService.update(+id, updateTagDto);
   }
 
   @ApiOperation({ summary: '根据id 删除标签' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tagService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.tagService.remove(+id);
   }
 }

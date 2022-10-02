@@ -56,16 +56,16 @@ export class CategoryController {
 
   @ApiOperation({ summary: '根据id分类，进行更新' })
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoryService.update(+id, updateCategoryDto);
+    return await this.categoryService.update(+id, updateCategoryDto);
   }
 
   @ApiOperation({ summary: '根据id 删除分类' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoryService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.categoryService.remove(+id);
   }
 }
