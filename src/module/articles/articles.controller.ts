@@ -62,6 +62,7 @@ export class ArticlesController {
 
   @ApiOperation({ summary: '更新指定id文章' })
   @ApiBearerAuth()
+  @Auth([UserRole.Admin, UserRole.Author])
   @Put(':id')
   @UseGuards(AuthGuard('jwt'))
   async update(
@@ -74,6 +75,7 @@ export class ArticlesController {
 
   @ApiOperation({ summary: '删除id文章' })
   @ApiBearerAuth()
+  @Auth([UserRole.Admin, UserRole.Author])
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   async remove(@Param('id') id) {

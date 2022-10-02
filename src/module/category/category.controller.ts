@@ -10,7 +10,9 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/decorator/auth.decorator';
 import { FindLimitDto } from 'src/dto/find-limit.dto';
+import { UserRole } from '../user/entities/user.entity';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -21,6 +23,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({ summary: '创建分类' })
+  @Auth([UserRole.Admin])
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('createCate')
   async create(@Body() createCategoryDto: CreateCategoryDto) {
@@ -55,6 +58,7 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: '根据id分类，进行更新' })
+  @Auth([UserRole.Admin])
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -64,6 +68,7 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: '根据id 删除分类' })
+  @Auth([UserRole.Admin])
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.categoryService.remove(+id);

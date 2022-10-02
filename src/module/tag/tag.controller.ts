@@ -14,6 +14,8 @@ import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FindLimitDto } from 'src/dto/find-limit.dto';
+import { UserRole } from '../user/entities/user.entity';
+import { Auth } from 'src/decorator/auth.decorator';
 
 @ApiTags('标签')
 @Controller('tag')
@@ -21,6 +23,7 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @ApiOperation({ summary: '创建标签' })
+  @Auth([UserRole.Admin])
   @Post('createTag')
   @UseInterceptors(ClassSerializerInterceptor)
   async create(@Body() createTagDto: CreateTagDto) {
@@ -55,12 +58,14 @@ export class TagController {
   }
 
   @ApiOperation({ summary: '根据id标签，进行更新' })
+  @Auth([UserRole.Admin])
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateTagDto: UpdateTagDto) {
     return await this.tagService.update(+id, updateTagDto);
   }
 
   @ApiOperation({ summary: '根据id 删除标签' })
+  @Auth([UserRole.Admin])
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.tagService.remove(+id);
