@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Category } from 'src/module/category/entities/category.entity';
 import { Tag } from 'src/module/tag/entities/tag.entity';
 import { User } from 'src/module/user/entities/user.entity';
@@ -23,6 +24,7 @@ export class Articles {
   content: string;
 
   // 文章内容 html
+  @Exclude()
   @Column({ type: 'mediumtext', default: null, name: 'content_html' })
   contentHtml: string;
 

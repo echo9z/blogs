@@ -36,6 +36,14 @@ export class PageController {
     return await this.pageService.findAllPage();
   }
 
+  @ApiOperation({ summary: '获取文章、分类、标签 总数' })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('findArticleInfo')
+  async find() {
+    return await this.pageService.findArticleInfo();
+  }
+
+  @ApiOperation({ summary: '根据id，获取page信息' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pageService.findOne(+id);

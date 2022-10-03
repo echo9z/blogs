@@ -64,7 +64,7 @@ export class ArticlesService {
   async findAll(query: FindLimitDto) {
     // eslint-disable-next-line prefer-const
     let { page, pageSize, sortMethod, sortField, keyword } = query;
-    sortField = query.sortField || 'create_time';
+    sortField = query.sortField || 'update_time';
     sortMethod = query.sortMethod?.toUpperCase() || 'DESC';
     page = Number(query.page || 1);
     pageSize = Number(query.pageSize || 10);
@@ -76,7 +76,7 @@ export class ArticlesService {
       .leftJoinAndSelect('article.author', 'user');
     // 如果文章关键词存在，则条件like查询条件
     if (keyword) {
-      qb.where({ username: Like(`%${keyword}`) });
+      qb.where({ title: Like(`%${keyword}%`) });
     }
     qb.orderBy(`article.${sortField}`, sortMethod as 'DESC' | 'ASC');
     qb.skip(pageSize * (page - 1)); // 跳转到第几页
@@ -84,7 +84,7 @@ export class ArticlesService {
     return {
       list: await qb.getMany(), // 获取多个结果
       totalNum: await qb.getCount(), // 按条件查询的数量
-      total: this.getCount(), // 总的数量
+      total: await this.getCount(), // 总的数量
       pageSize,
       page,
     };

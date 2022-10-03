@@ -16,5 +16,6 @@ import { Articles } from './entities/article.entity';
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService],
+  exports: [ArticlesService],
 })
 export class ArticlesModule {}

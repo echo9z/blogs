@@ -20,9 +20,12 @@ export class FindLimitDto {
   @IsOptional() // 搜索关键字
   keyword?: string = '';
 
-  @ApiPropertyOptional({ description: '排序字段 createTime' })
+  @ApiPropertyOptional({
+    description: '排序字段 update_time',
+    default: 'update_time',
+  })
   @IsOptional()
-  sortField?: string = 'createTime'; // 排序字段
+  sortField?: string = 'update_time'; // 排序字段
 
   @ApiPropertyOptional({ description: '排序方式 desc 或 asc', default: 'desc' })
   @IsOptional()

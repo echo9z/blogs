@@ -45,7 +45,7 @@ export class CategoryService {
     const qb = await this.categoryRepository.createQueryBuilder('e_category');
     if (keyword) {
       // 添加关键词模糊查询
-      qb.where({ username: Like(`%${keyword}`) });
+      qb.where({ name: Like(`%${keyword}%`) });
     }
     qb.orderBy(`e_category.${sortField}`, sortMethod as 'DESC' | 'ASC');
     qb.skip(pageSize * (page - 1)); // 跳转到第几页

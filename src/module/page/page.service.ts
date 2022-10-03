@@ -5,12 +5,18 @@ import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
 import { Page } from './entities/page.entity';
 import * as Moment from 'moment';
+import { CategoryService } from '../category/category.service';
+import { TagService } from '../tag/tag.service';
+import { ArticlesService } from '../articles/articles.service';
 
 @Injectable()
 export class PageService {
   constructor(
     @InjectRepository(Page) // 在服务里面使用@InjectRepository获取数据库Model实现操作数据库
     private pageRepository: Repository<Page>,
+    private readonly categoryService: CategoryService,
+    private readonly tagService: TagService,
+    private readonly articlesService: ArticlesService,
   ) {}
 
   async create(pageDto: CreatePageDto) {
@@ -33,6 +39,22 @@ export class PageService {
 
   async findAllPage() {
     return await this.pageRepository.find();
+  }
+
+  async findArticleInfo() {
+    const art = await this.articlesService.getCount();
+    const cate = await this.categoryService.getCount();
+    const tag = await this.tagService.getCount();
+    const result = ['文章', '分类', '标签'];
+    const counts = [art, cate, tag];
+    const res = [];
+    for (let i = 0; i < result.length; i++) {
+      res.push({
+        name: result[i],
+        count: counts[i],
+      });
+    }
+    return res;
   }
 
   async findOne(id: number) {

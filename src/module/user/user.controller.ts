@@ -40,8 +40,6 @@ export class UserController {
   }
 
   @ApiOperation({ summary: '获取用户信息' })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   @Get('getInfo')
   getUserInfo(@Req() req) {
     return req.user;
