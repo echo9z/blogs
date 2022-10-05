@@ -16,6 +16,14 @@ export class FindLimitDto {
   @IsOptional()
   pageSize?: number = 10;
 
+  @ApiPropertyOptional({ description: '分类' })
+  @IsOptional() // 搜索关键字
+  category?: string = '';
+
+  @ApiPropertyOptional({ description: '标签' })
+  @IsOptional() // 搜索关键字
+  tag?: string = '';
+
   @ApiPropertyOptional({ description: '搜索关键字' })
   @IsOptional() // 搜索关键字
   keyword?: string = '';

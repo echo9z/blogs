@@ -63,7 +63,7 @@ export class ArticlesService {
 
   async findAll(query: FindLimitDto) {
     // eslint-disable-next-line prefer-const
-    let { page, pageSize, sortMethod, sortField, keyword } = query;
+    let { page, pageSize, category, tag, sortMethod, sortField, keyword } = query;
     sortField = query.sortField || 'update_time';
     sortMethod = query.sortMethod?.toUpperCase() || 'DESC';
     page = Number(query.page || 1);
@@ -74,13 +74,21 @@ export class ArticlesService {
       .leftJoinAndSelect('article.category', 'category')
       .leftJoinAndSelect('article.tags', 'tag')
       .leftJoinAndSelect('article.author', 'user');
+    if (category) {
+      qb.where({ category });
+    }
+    if (tag) {
+      qb.andWhere("article_tag.tag_id = :tag", { tag: tag })
+    }
     // 如果文章关键词存在，则条件like查询条件
     if (keyword) {
-      qb.where({ title: Like(`%${keyword}%`) });
+      qb.andWhere({ title: Like(`%${keyword}%`) });
     }
     qb.orderBy(`article.${sortField}`, sortMethod as 'DESC' | 'ASC');
     qb.skip(pageSize * (page - 1)); // 跳转到第几页
     qb.take(pageSize); // 一页显示几行
+    // const sql = qb.getSql()
+    // console.log(sql)
     return {
       list: await qb.getMany(), // 获取多个结果
       totalNum: await qb.getCount(), // 按条件查询的数量
