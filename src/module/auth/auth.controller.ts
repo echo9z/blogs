@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiHeader, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
 @ApiTags('验证')
@@ -27,5 +27,18 @@ export class AuthController {
   @Post('login')
   async login(@Body() user: LoginDto, @Req() req) {
     return this.authService.login(req.user);
+  }
+
+  @ApiOperation({ summary: '根据token获取用户信息' })
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'Auth token',
+  })
+  @UseGuards(AuthGuard('jwt')) // Nest.js内置的守卫AuthGuard来进行验证token是否有效
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('getInfo')
+  async getInfo(@Req() req) {
+    return this.authService.getUser(req.user);
   }
 }

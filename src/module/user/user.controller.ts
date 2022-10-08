@@ -40,6 +40,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: '获取用户信息' })
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Get('getInfo')
   getUserInfo(@Req() req) {
     return req.user;

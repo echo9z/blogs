@@ -15,7 +15,7 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const methodKey = context.getHandler().name; // "create"
     const className = context.getClass().name; // "CatsController"
-    console.log(methodKey, className);
+    // console.log(methodKey, className);
     // 'roles' 如果在 方法中设置 @Roles('test123') 根据reflector.get反射获取元数据
     // const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler()); // 获取方法中的元数据
     // const roles = this.reflector.get<string[]>('roles', context.getClass()); 获取class controller类上的元数据
