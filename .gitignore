@@ -3,6 +3,7 @@
 /node_modules
 /assets
 package-lock.json
+yarn.lock
 # Logs
 /logs
 logs

@@ -38,9 +38,12 @@ export default () => ({
       // db: 0,
       password: process.env.REDIS_PASS || '',
       keyPrefix: process.env.REDIS_KEY_PREFIX || '',
-      onClientReady: (client) => {
+      onClientCreated(client) {
         client.on('error', (err) => {
-          console.log('-----redis error-----', err);
+          console.log(err);
+        });
+        client.on('ready', () => {
+          console.log('redis to ready');
         });
       },
     },

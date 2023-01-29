@@ -63,7 +63,8 @@ export class ArticlesService {
 
   async findAll(query: FindLimitDto) {
     // eslint-disable-next-line prefer-const
-    let { page, pageSize, category, tag, sortMethod, sortField, keyword } = query;
+    let { page, pageSize, category, tag, sortMethod, sortField, keyword } =
+      query;
     sortField = query.sortField || 'update_time';
     sortMethod = query.sortMethod?.toUpperCase() || 'DESC';
     page = Number(query.page || 1);
@@ -78,7 +79,7 @@ export class ArticlesService {
       qb.where({ category });
     }
     if (tag) {
-      qb.andWhere("article_tag.tag_id = :tag", { tag: tag })
+      qb.andWhere('article_tag.tag_id = :tag', { tag: tag });
     }
     // 如果文章关键词存在，则条件like查询条件
     if (keyword) {

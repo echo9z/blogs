@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
+import { InjectRedis, DEFAULT_REDIS_NAMESPACE } from '@liaoliaots/nestjs-redis';
+import Redis from 'ioredis';
 
 @Injectable()
 export class RedisClientService {
   // redis实例
-  constructor(@InjectRedis() private readonly redis: Redis) {}
+  constructor(
+    @InjectRedis() private readonly redis: Redis, // or // @InjectRedis(DEFAULT_REDIS_NAMESPACE) private readonly redis: Redis
+  ) {}
   //设置值的方法
   async set(key: string, value: any, seconds?: number) {
     value = JSON.stringify(value);
