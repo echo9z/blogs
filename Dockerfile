@@ -1,4 +1,4 @@
-FROM node:16.14
+FROM node:16.14.2
 
 # 设置时区
 ENV TZ=Asia/Shanghai \
@@ -18,11 +18,11 @@ RUN npm config set registry https://registry.npm.taobao.org/
 
 # RUN npm install -g npm@9.4.0
 # npm 安装依赖
-RUN npm install 
+RUN npm install
 # 打包
 RUN npm run build
 
 # 使用打包后的镜像
 CMD npm run start:prod
 
-EXPOSE 18000
+EXPOSE 18080

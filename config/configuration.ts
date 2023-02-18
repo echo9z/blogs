@@ -39,12 +39,16 @@ export default () => ({
       password: process.env.REDIS_PASS || '',
       keyPrefix: process.env.REDIS_KEY_PREFIX || '',
       onClientCreated(client) {
-        client.on('error', (err) => {
-          console.log(err);
-        });
-        client.on('ready', () => {
-          console.log('redis to ready');
-        });
+        try {
+          client.on('error', (err) => {
+            console.log(err);
+          });
+          client.on('ready', () => {
+            // console.log('redis to ready');
+          });
+        } catch (error) {
+          
+        }
       },
     },
   },

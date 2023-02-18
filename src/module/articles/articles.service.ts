@@ -132,6 +132,13 @@ export class ArticlesService {
   async findById(id: number): Promise<any> {
     const isExist: string = await this.redisClientService.get(`article-${id}`);
     if (isExist) {
+      const article = await this.articlesRepository.findOne({ where: { id } });
+      const qb = this.articlesRepository.createQueryBuilder('article');
+      await qb
+        .update()
+        .set({ viewCount: article.viewCount + 1 })
+        .where('id = :id', { id })
+        .execute();
       return JSON.parse(isExist);
     }
     const article = await this.articlesRepository.findOne({ where: { id } });
@@ -139,7 +146,7 @@ export class ArticlesService {
     await qb
       .update()
       .set({ viewCount: article.viewCount + 1 })
-      .where('id = :id', { id: 1 })
+      .where('id = :id', { id })
       .execute();
 
     qb.leftJoinAndSelect('article.category', 'category')
@@ -149,9 +156,24 @@ export class ArticlesService {
       .setParameter('id', id);
     // console.log(qb);
     const result = await qb.getOne();
-
-    this.redisClientService.set(`article-${id}`, JSON.stringify(result), 3600);
-    return { result };
+    const art = {
+      author: result.author,
+      content: result.content,
+      coverUrl: result.coverUrl,
+      create_time: result.create_time,
+      id: result.id,
+      isRecommend: result.isRecommend,
+      likeCount: result.likeCount,
+      publishTime: result.publishTime,
+      status: result.status,
+      summary: result.summary,
+      tags: result.tags,
+      title: result.title,
+      update_time: result.update_time,
+      viewCount: result.viewCount
+    }
+    this.redisClientService.set(`article-${id}`, JSON.stringify(art), 3600);
+    return art;
   }
 
   async updateById(user: User, id: number, updateArticleDto: UpdateArticleDto) {

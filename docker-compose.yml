@@ -1,0 +1,92 @@
+version: "3.9"
+# 定义服务，可以多个
+services:
+  nginx: # 服务名称
+    container_name: nginx1.21.4 # 容器名称，默认为"工程名称_服务条目名称_序号"
+    image: nginx:1.21.4 # 创建容器时所需的镜像
+    restart: always #自动启动
+    ports: # 宿主机与容器的端口映射关系
+        - "80:80" # 左边宿主机端口:右边容器端口
+        - "443:443"
+    environment: # 创建容器时所需的环境变量
+      TZ: Asia/Shanghai
+    volumes:
+        - "/mydata/nginx/nginx.conf:/etc/nginx/nginx.conf"
+        - "/mydata/nginx/logs:/etc/nginx/logs/nginx"
+        - "/mydata/nginx/ssl:/etc/nginx/ssl"
+        - "/root/blogs/assets:/root/blogs/assets"
+
+  # docker容器启动的redis默认是没有redis.conf的配置文件，所以用docker启动redis之前，需要先去官网下载redis.conf的配置文件
+  redis: # 服务名称
+      container_name: redis # 容器名称
+      image: redis:6.2.4 # 使用官方镜像
+      restart: always #自动启动
+      ports:
+          - "6379:6379"
+      # 配置redis.conf方式启动
+      command: redis-server /usr/local/etc/redis/redis.conf --requirepass 123456 --appendonly yes # 设置redis登录密码 123456、--appendonly yes：这个命令是用于开启redis数据持久化
+      # command: redis-server --requirepass 123456 --appendonly yes # 设置redis登录密码 123456
+      volumes:
+          - "./deploy/redis/db:/data" # 把持久化数据挂载到宿主机
+          - "./deploy/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf " # 把redis的配置文件挂载到宿主机
+          - "./deploy/redis/logs:/logs" # 用来存放日志
+
+  mysql:
+    container_name: mysql8 # 容器名称
+    image: mysql:8 # 使用官方镜像
+    restart: always #自动启动
+    ports:
+        - "3306:3306"
+    environment: # 创建容器时所需的环境变量
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - "/mydata/docker_mysql/conf:/etc/mysql/conf.d"
+        - "/mydata/docker_mysql/data:/var/lib/mysql"
+        
+  drone-server:
+    container_name: drone # 容器名称
+    image: drone/drone:latest # 使用官方镜像
+    restart: always #自动启动
+    ports:
+        - "13080:80"
+    environment: # 创建容器时所需的环境变量
+        TZ: Asia/Shanghai
+        DRONE_AGENTS_ENABLED: true   
+        DRONE_GOGS_SERVER: http://81.69.254.48:13380   
+        DRONE_RPC_SECRET: dronerpc999e   
+        DRONE_SERVER_HOST: 81.69.254.48:13080
+        DRONE_SERVER_PROTO: http   
+        DRONE_USER_CREATE: username:echo9z,admin:true
+    volumes:
+        - "/mydata/drone:/data"
+    
+  drone-server:
+    container_name: drone-runner-docker # 容器名称
+    image: drone/drone-runner-docker:latest # 使用官方镜像
+    restart: always #自动启动
+    ports:
+        - "13000:3000"
+    environment: # 创建容器时所需的环境变量
+        TZ: Asia/Shanghai
+        DRONE_AGENTS_ENABLED: true   
+        DRONE_SERVER_PROTO: http  
+        DRONE_SERVER_HOST: 81.69.254.48:13080
+        DRONE_RPC_SECRET: dronerpc999e 
+        DRONE_RUNNER_CAPACITY: 2
+        DRONE_RUNNER_NAME: drone-runner-docker
+    volumes:
+        - "/var/run/docker.sock:/var/run/docker.sock"
+
+  gogs:
+    container_name: gogs
+    image: gogs/gogs:latest
+    restart: always
+    ports:
+      - "13322:22"
+      - "13380:3000"
+    environment: # 创建容器时所需的环境变量
+        TZ: Asia/Shanghai
+    volumes:
+        - "/mydata/gogs:/data"
+

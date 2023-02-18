@@ -35,7 +35,7 @@ export class AuthService {
     return { msg: '登录成功',
       result: { avatar, email,
         nickname, phone, role,
-        userId, username, token
+        userId, username, token: `Bearer ${token}`
       } 
     };
   }

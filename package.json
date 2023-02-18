@@ -1,8 +1,8 @@
 {
   "name": "blogs",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "blogs",
+  "author": "echo9z",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
