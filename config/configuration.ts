@@ -30,7 +30,7 @@ export default () => ({
     pass: process.env.SMTP_PASS,
     from: process.env.SMTP_FROM,
   },
-  file,
+  file: file,
   redis: {
     config: {
       host: process.env.REDIS_HOST || '127.0.0.1',

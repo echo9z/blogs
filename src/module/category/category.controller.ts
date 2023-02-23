@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Query,
   Patch,
   Param,
   Delete,
@@ -39,7 +40,7 @@ export class CategoryController {
   @ApiOperation({ summary: '获取所有分类列表' })
   @Get('list')
   @UseInterceptors(ClassSerializerInterceptor)
-  async findAll(@Body() body?: FindLimitDto) {
+  async findAll(@Query() body?: FindLimitDto) {
     return await this.categoryService.findAll(body);
   }
 

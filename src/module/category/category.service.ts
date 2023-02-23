@@ -31,15 +31,15 @@ export class CategoryService {
   }
 
   // 获取分类列表
-  async findAll(find: FindLimitDto) {
+  async findAll(find?: FindLimitDto) {
     // eslint-disable-next-line prefer-const
     let { page, pageSize, sortMethod, sortField, keyword } = find;
     sortField = find.sortField || 'create_time';
-    console.log(sortMethod || 'DESC');
+    // console.log(sortMethod || 'DESC');
     sortMethod = sortMethod?.toUpperCase() || 'DESC';
     page = Number(find.page || 1);
     pageSize = Number(find.pageSize || 10);
-    console.log(find);
+    // console.log(find);
 
     // 使用QueryBuilder获取值
     const qb = await this.categoryRepository.createQueryBuilder('e_category');

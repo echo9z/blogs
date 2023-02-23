@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
@@ -11,15 +12,48 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
-import { Response } from 'express';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
+import { ApiOperation, ApiTags, ApiConsumes } from '@nestjs/swagger';
 import { UserRole } from '../user/entities/user.entity';
 import { Auth } from 'src/decorator/auth.decorator';
+import { FastifyFileInterceptor } from '../../interceptor/fastify-file/fastify-file.interceptor';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { fileMapper, filesMapper } from '../../utils/file-mapper';
+import { SingleFileDto } from './dto/single-file-dto';
 
 @ApiTags('上传文件')
 @Controller('file')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
+
+  @ApiConsumes('multipart/form-data')
+  @Post('single-file')
+  @UseInterceptors(
+    FastifyFileInterceptor(
+      join(__dirname, '../../assets/uploads'), 
+      {
+        storage: diskStorage({
+          destination: join(
+            __dirname,
+            `../../assets/uploads/${new Date().toLocaleDateString()}`,
+          ),
+          filename: (req, file, cb) => {
+            const filename = `${new Date().getTime()}.${file.mimetype.split('/')[1]}`;
+            return cb(null, filename);
+          },
+        }),
+        // fileFilter: imageFileFilter,
+      }
+    ),
+  )
+  single(
+    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: SingleFileDto,
+  ) {
+    return { ...body, photo_url: fileMapper({ file, req }) };
+  }
 
   @ApiOperation({ summary: '单文件上传' })
   @Auth([UserRole.Admin, UserRole.Author])
@@ -29,6 +63,7 @@ export class UploadController {
     // console.log(file);
     const { filename, path, mimetype } =
       await this.uploadService.uploadSingleFile(file);
+
     return {
       filename,
       mimetype,
