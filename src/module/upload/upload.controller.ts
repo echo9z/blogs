@@ -19,6 +19,7 @@ import { Auth } from 'src/decorator/auth.decorator';
 @ApiTags('上传文件')
 @Controller('file')
 export class UploadController {
+  let host: process.env.NODE_ENV === 'production' ? 'https://www.echouu.com' : 'http://www.127.0.0.1.com' 
   constructor(private readonly uploadService: UploadService) {}
 
   @ApiOperation({ summary: '单文件上传' })
@@ -32,7 +33,7 @@ export class UploadController {
     return {
       filename,
       mimetype,
-      url: `http://127.0.0.1:18080/${path.substring(path.indexOf('uploads'))}`,
+      url: `${host}/${path.substring(path.indexOf('uploads'))}`,
     };
   }
 
