@@ -7,7 +7,7 @@ app_name='nestjs_blogs'
 app_version='1.0.0'
 # 定义应用环境
 profile_active='prod'
-echo '----copy jar----'
+echo '----mv source----'
 docker stop ${app_name}
 echo '----stop container----'
 docker rm ${app_name}
