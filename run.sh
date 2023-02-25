@@ -17,7 +17,6 @@ echo '----rm image----'
 # 打包编译docker镜像
 docker build -t ${group_name}/${app_name}:${app_version} .
 echo '----build image----'
-
 docker run -id --name ${app_name} \
 -e TZ="Asia/Shanghai" \
 -p 18080:18080 \
@@ -25,3 +24,5 @@ docker run -id --name ${app_name} \
 -v /root/blogs/assets:/app/assets \
 ${group_name}/${app_name}:${app_version}
 echo '----start container----'
+rm -rf /mydata/blogs_build/build
+echo '----delete build----'
