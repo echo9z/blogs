@@ -25,4 +25,3 @@ docker run -id --name ${app_name} \
 -v /root/blogs/assets:/app/assets \
 ${group_name}/${app_name}:${app_version}
 echo '----start container----'
-
