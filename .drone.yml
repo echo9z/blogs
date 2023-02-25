@@ -1,0 +1,24 @@
+kind: pipeline # 定义对象类型，还有secret和signature两种类型
+type: docker # 定义流水线类型，还有kubernetes、exec、ssh等类型
+name: nestjs-blogs-drone # 定义流水线名称
+
+volumes: # 声明数据卷
+  - name: node_modules # 数据卷名称
+    host: # Host Volume
+      path: /volumes/drone/web/node_modules # 宿主机目录    #绝对路径
+
+clone:
+  disable: false # 启用代码拉取
+
+steps: # 定义流水线执行步骤，这些步骤将顺序执行
+  - name: build-project # 步骤名称
+    image: node:16.14.0 # 使用镜像
+    depends_on: [clone] # 依赖的步骤，
+    volumes: # 挂载数据卷
+      - name: node_modules # 数据卷名称
+        path: /drone/src/node_modules # 容器内目录 绝对路径
+    commands: # 执行命令
+      - pwd # 查看当前目录
+      - npm config set registry https://registry.npm.taobao.org # 切换淘宝镜像
+      - npm install # 安装node_modules包
+      - npm run build # 执行编译
