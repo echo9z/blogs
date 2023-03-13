@@ -18,6 +18,7 @@ import { RedisClientModule } from './module/redis-client/redis-client.module';
 import { ArticlesModule } from './module/articles/articles.module';
 import { TagModule } from './module/tag/tag.module';
 import { PageModule } from './module/page/page.module';
+import { ExternalModule } from './module/external/external.module';
 import parseEnv from '../config/env';
 
 @Module({
@@ -64,6 +65,7 @@ import parseEnv from '../config/env';
     ArticlesModule,
     TagModule,
     PageModule,
+    ExternalModule,
   ],
   controllers: [AppController],
   providers: [
