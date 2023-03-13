@@ -170,8 +170,8 @@ export class ArticlesService {
       tags: result.tags,
       title: result.title,
       update_time: result.update_time,
-      viewCount: result.viewCount
-    }
+      viewCount: result.viewCount,
+    };
     this.redisClientService.set(`article-${id}`, JSON.stringify(art), 3600);
     return art;
   }
