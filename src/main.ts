@@ -9,6 +9,7 @@ import { RequestMiddleware } from './middleware/request.middleware';
 import { AnyExceptionFilter } from './filter/any-exception.filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ResponseInterceptor } from './interceptor/response.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 const PORT: string | number = process.env.APP_PORT || 18080;
 async function bootstrap() {
@@ -60,10 +61,11 @@ async function bootstrap() {
 
   // 监听所有的请求路由，并打印日志
   app.use(new RequestMiddleware().use);
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalPipes(new ValidationPipe());
 
   // 捕获全局异常
   app.useGlobalFilters(new AnyExceptionFilter());
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   await app.listen(
     PORT,
