@@ -1,4 +1,4 @@
-FROM node:16.14.0
+FROM node:16-alpine
 
 # 设置时区
 ENV TZ=Asia/Shanghai \
@@ -19,6 +19,7 @@ RUN npm config set registry https://registry.npm.taobao.org/
 # RUN npm install -g npm@9.4.0
 # npm 安装依赖
 RUN npm install
+# RUN npm ci
 # 打包
 RUN npm run build
 
