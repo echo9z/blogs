@@ -41,7 +41,7 @@ services:
       TZ: Asia/Shanghai
       MYSQL_ROOT_PASSWORD: root
     volumes:
-        - "/mydata/docker_mysql/conf:/etc/mysql/conf.d"
+        - "/mydata/docker_mysql/conf.d:/etc/mysql/conf.d"
         - "/mydata/docker_mysql/data:/var/lib/mysql"
         
   drone-server:
@@ -61,7 +61,7 @@ services:
     volumes:
         - "/mydata/drone:/data"
     
-  drone-server:
+  drone-runner-server:
     container_name: drone-runner-docker # 容器名称
     image: drone/drone-runner-docker:latest # 使用官方镜像
     restart: always #自动启动
