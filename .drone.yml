@@ -7,7 +7,7 @@ clone:
 
 steps: # 定义流水线执行步骤，这些步骤将顺序执行
   - name: build-project # 步骤名称
-    image: node:16.14.0 # 使用镜像
+    image: node:16-alpine # 使用镜像
     depends_on: [clone] # 依赖的步骤，
     volumes: # 挂载数据卷
       - name: blogs-cache
