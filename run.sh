@@ -22,6 +22,7 @@ docker run -id --name ${app_name} \
 -p 18080:18080 \
 --net blogs_nework \
 -v /root/blogs/assets:/app/assets \
+-v /root/blogs/logs:/app/logs \
 ${group_name}/${app_name}:${app_version}
 echo '----start container----'
 rm -rf /mydata/blogs_build/build

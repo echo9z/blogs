@@ -25,8 +25,8 @@ export class ArticlesService {
     const { title } = articles;
     if (!title) throw new HttpException('缺少文章标题', HttpStatus.BAD_REQUEST);
 
-    const art = await this.articlesRepository.findOne({ where: { title } });
-    if (art) throw new HttpException('文章已存在', HttpStatus.BAD_REQUEST);
+    // const art = await this.articlesRepository.findOne({ where: { title } });
+    // if (art) throw new HttpException('文章已存在', HttpStatus.BAD_REQUEST);
 
     const { tag, category, status, isRecommend } = articles;
     // 根据所选择的id，获取对应id分类
