@@ -46,7 +46,7 @@ import parseEnv from '../config/env';
           logging: dataBase.logging,
           synchronize: dataBase.synchronize, //根据实体自动创建数据库表， 生产环境建议关闭
           autoLoadEntities: dataBase.autoLoadEntities, // 自动导入entity 实体
-          // logger: new DbLogger(),
+          logger: new DbLogger(),
           timezone: '+08:00', //服务器上配置的时区
         };
       },
