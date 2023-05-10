@@ -15,7 +15,7 @@ db:
   connectTimeout: 5000 # mysql 服务连接异常时，每隔5秒连接一次尝试连接
 
 jwt:
-  secret: 123456
+  secret: cXAhYrcOloCjEGzu
   expiresIn: 7d
 
 smtp:
