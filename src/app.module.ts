@@ -35,7 +35,7 @@ import { ExternalModule } from './module/external/external.module';
       useFactory: async (configService: ConfigService) => {
         const dataBase = configService.get('db');
         return {
-          type: 'mysql', // 数据库类型
+          type: dataBase.type, // 数据库类型
           // entities: [], // 数据表实体
           host: dataBase.host, // 主机，默认为localhost
           port: dataBase.port, // 端口号

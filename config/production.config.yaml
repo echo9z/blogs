@@ -6,7 +6,7 @@ db:
   name: blogs
   host: mysql8
   port: 3306
-  user: root
+  username: root
   password: wzh123
   synchronize: true # 根据实体自动创建数据库表， 生产环境建议关闭
   autoLoadEntities: true # 是否自动导入实体
