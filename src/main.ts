@@ -48,7 +48,7 @@ async function bootstrap() {
   app.useStaticAssets('assets');
 
   // 使用压缩中间件启用 gzip 压缩
-  // app.use(compression());
+  app.use(compression());
 
   // 配置swagger文档
   const config = new DocumentBuilder()

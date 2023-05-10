@@ -65,8 +65,10 @@ Log4js.addLayout('json', (logConfig: any) => {
     const messageOutput: string = messageList.join(' ');
     const positionOutput: string = position ? ` [${position}]` : '';
     const typeOutput = `[${logConfig.type}] ${logEvent.pid.toString()} - `;
-    // eslint-disable-next-line prettier/prettier
-    const dateOutput = `${Moment(logEvent.startTime).format('YYYY-MM-DD HH:mm:ss')}`;
+
+    const dateOutput = `${Moment(logEvent.startTime).format(
+      'YYYY-MM-DD HH:mm:ss',
+    )}`;
     const moduleOutput = moduleName ? `[${moduleName}] ` : '[LoggerService] ';
     let levelOutput = `[${logEvent.level}] ${messageOutput}`;
 
@@ -92,8 +94,9 @@ Log4js.addLayout('json', (logConfig: any) => {
         break;
     }
 
-    // eslint-disable-next-line prettier/prettier
-    return `${Chalk.green(typeOutput)}${dateOutput} ${Chalk.yellow(moduleOutput)}${levelOutput}${positionOutput}`;
+    return `${Chalk.green(typeOutput)}${dateOutput} ${Chalk.yellow(
+      moduleOutput,
+    )}${levelOutput}${positionOutput}`;
   };
 });
 

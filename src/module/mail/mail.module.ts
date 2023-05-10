@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 const mailerModule = MailerModule.forRootAsync({
   inject: [ConfigService],
   useFactory: async (configService: ConfigService) => {
-    const mail = configService.get('mail');
+    const mail = configService.get('smtp');
     return {
       transport: {
         host: mail.host, // 'smtp.exmail.qq.com', //邮箱服务器地址

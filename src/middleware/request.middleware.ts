@@ -6,6 +6,7 @@
  */
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
+import * as _ from 'lodash';
 import { Logger } from '../utils/log4js';
 @Injectable()
 export class RequestMiddleware implements NestMiddleware {
@@ -14,8 +15,16 @@ export class RequestMiddleware implements NestMiddleware {
     next();
 
     // 组装信息
-    // eslint-disable-next-line prettier/prettier
-    const logFormat = `Request original url: ${req.originalUrl} Method: ${req.method} IP: ${req.ip} Status code: ${code} Parmas: ${JSON.stringify(req.params)} Query: ${JSON.stringify(req.query)} Body: ${JSON.stringify(req.body)}`;
+    const params = !_.isEmpty(req.params);
+    const query = !_.isEmpty(req.query);
+    const body = !_.isEmpty(req.body);
+    const logFormat = `Request original url: ${req.originalUrl} Method: ${
+      req.method
+    } IP: ${req.ip} Status code: ${code} ${
+      params ? `Parmas: ${JSON.stringify(req.params)}` : ''
+    } ${query ? `Query: ${JSON.stringify(req.query)}` : ''} ${
+      body ? `Body: ${JSON.stringify(req.body)}` : ''
+    }`;
 
     // 根据状态码进行日志类型区分
     if (code >= 500) {

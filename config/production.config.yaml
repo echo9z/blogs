@@ -1,0 +1,41 @@
+app:
+  port: 18080
+
+db: 
+  type: mysql
+  name: blogs
+  host: mysql8
+  port: 3306
+  user: root
+  password: wzh123
+  synchronize: true # 根据实体自动创建数据库表， 生产环境建议关闭
+  autoLoadEntities: true # 是否自动导入实体
+  maxQueryExecutionTime: 1000 # 最大查询执行时间
+  logging: true # 是否日志记录
+  connectTimeout: 5000 # mysql 服务连接异常时，每隔5秒连接一次尝试连接
+
+jwt:
+  secret: 123456
+  expiresIn: 7d
+
+smtp:
+  host: smtp.exmail.qq.com
+  port: 456
+  user: wangzhenhao@echo9z.wecom.work
+  pass: hNAhWrcEXoCjNCzu
+  from: wangzhenhao@echo9z.wecom.work
+
+redis:
+  log: true
+  host: redis_blogs
+  port: 6379
+  password:  
+  db: 0 # Defaults to 0
+
+axios:
+  timeout: 5000
+  maxRedirects: 5
+
+throttle:
+  ttl: 60
+  limit: 100

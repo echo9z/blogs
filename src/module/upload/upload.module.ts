@@ -8,7 +8,9 @@ import { UploadController } from './upload.controller';
   imports: [
     // 导入上传文件模块
     MulterModule.registerAsync({
-      useFactory: (config: ConfigService) => config.get('file'),
+      useFactory: (config: ConfigService) => {
+        return config.get('file');
+      },
       inject: [ConfigService],
     }),
   ],

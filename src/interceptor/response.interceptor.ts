@@ -13,18 +13,24 @@ import {
 import { Observable, map } from 'rxjs';
 import { Logger } from '../utils/log4js';
 import * as Moment from 'moment';
+import * as _ from 'lodash';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
+    const params = !_.isEmpty(req.params);
+    const query = !_.isEmpty(req.query);
+    const body = !_.isEmpty(req.body);
+    const logFormat = `Response original url: ${req.originalUrl} Method: ${
+      req.method
+    } IP: ${req.ip} ${params ? `Parmas: ${JSON.stringify(req.params)}` : ''} ${
+      query ? `Query: ${JSON.stringify(req.query)}` : ''
+    } ${body ? `Body: ${JSON.stringify(req.body)}` : ''}`;
     return next.handle().pipe(
       // data 就是postscontroller 返回的数据对象
       map((data) => {
         // console.log('全局响应拦截器方法返回内容后...');
-        // eslint-disable-next-line prettier/prettier
-        const logFormat = `Response original url: ${req.originalUrl} Method: ${req.method} IP: ${req.ip} Parmas: ${JSON.stringify(req.params)} Query: ${JSON.stringify(req.query)} Body: ${JSON.stringify(req.body)}`;
-
         Logger.info(logFormat);
         Logger.access(logFormat);
         return {

@@ -17,9 +17,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // 获取异常对象状态码
     const status = exception.getStatus();
 
-    // eslint-disable-next-line prettier/prettier
-    const logFormat = `Request original url: ${request.originalUrl} Method: ${request.method} IP: ${request.ip} Status code: ${status} Response: ${exception.toString()}`;
-    Logger.info(logFormat);
+    const logFormat = `Request original url: ${request.originalUrl} Method: ${
+      request.method
+    } IP: ${
+      request.ip
+    } Status code: ${status} Response: ${exception.toString()}`;
+    Logger.error(logFormat);
 
     // 设置响应的状态码
     response.status(status).json({

@@ -22,21 +22,20 @@ export class AuthService {
       username: user.username,
       role: user.role,
     });
-    const { 
-      avatar,
-      email,
-      nickname,
-      phone,
-      role,
-      userId,
-      username
-    } = user;
+    const { avatar, email, nickname, phone, role, userId, username } = user;
 
-    return { msg: '登录成功',
-      result: { avatar, email,
-        nickname, phone, role,
-        userId, username, token: `Bearer ${token}`
-      } 
+    return {
+      msg: '登录成功',
+      result: {
+        avatar,
+        email,
+        nickname,
+        phone,
+        role,
+        userId,
+        username,
+        token: `Bearer ${token}`,
+      },
     };
   }
 
