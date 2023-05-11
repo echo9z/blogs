@@ -10,7 +10,7 @@ import { Articles } from './entities/article.entity';
 import moment from 'src/utils/momentUtil';
 import { User } from '../user/entities/user.entity';
 import { RedisClientService } from '../redis-client/redis-client.service';
-
+import { SnowflakeIdGenerate } from 'src/utils/snowflake';
 @Injectable()
 export class ArticlesService {
   constructor(
@@ -37,6 +37,7 @@ export class ArticlesService {
     // Partial 可以将 接口 或者 对象中的属性变为可选择的属性  type Partial<T> = { [P in keyof T]?: T[P]; }
     // 准备文章参数
     const param: Partial<Articles> = {
+      id: new SnowflakeIdGenerate().generate(),
       ...articles,
       isRecommend: isRecommend ? 1 : 0,
       category: cate,

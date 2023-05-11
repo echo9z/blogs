@@ -24,7 +24,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({ summary: '创建分类' })
-  @Auth([UserRole.Admin])
+  @Auth([UserRole.Admin, UserRole.Author])
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('createCate')
   async create(@Body() createCategoryDto: CreateCategoryDto) {
@@ -59,7 +59,7 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: '根据id分类，进行更新' })
-  @Auth([UserRole.Admin])
+  @Auth([UserRole.Admin, UserRole.Author])
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -69,7 +69,7 @@ export class CategoryController {
   }
 
   @ApiOperation({ summary: '根据id 删除分类' })
-  @Auth([UserRole.Admin])
+  @Auth([UserRole.Admin, UserRole.Author])
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.categoryService.remove(+id);

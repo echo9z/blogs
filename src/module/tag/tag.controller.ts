@@ -23,7 +23,7 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @ApiOperation({ summary: '创建标签' })
-  @Auth([UserRole.Admin])
+  @Auth([UserRole.Admin, UserRole.Author])
   @Post('createTag')
   @UseInterceptors(ClassSerializerInterceptor)
   async create(@Body() createTagDto: CreateTagDto) {

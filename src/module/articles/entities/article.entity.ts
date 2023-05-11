@@ -2,6 +2,7 @@ import { Exclude } from 'class-transformer';
 import { Category } from 'src/module/category/entities/category.entity';
 import { Tag } from 'src/module/tag/entities/tag.entity';
 import { User } from 'src/module/user/entities/user.entity';
+
 import {
   Column,
   Entity,
@@ -9,12 +10,15 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('e_articles')
 export class Articles {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn({
+    type: 'bigint',
+  })
   id: number; // 标记为主列，值自动生成
   // 文章标题
   @Column({ length: 50 })
